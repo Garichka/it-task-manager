@@ -1,0 +1,49 @@
+{% extends "task_manager/base.html" %}
+
+{% block content %}
+  <div class="p-5 mb-4 bg-light rounded-3 border">
+    <div class="container-fluid py-5">
+      <h1 class="display-5 fw-bold">IT Task Manager Dashboard</h1>
+      <p class="col-md-8 fs-4">Manage projects, assign tasks, and track your team's progress in real-time.</p>
+      <a href="{% url 'task_manager:task-create' %}" class="btn btn-primary btn-lg">Create New Task</a>
+    </div>
+  </div>
+
+  <div class="row text-center">
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm border-primary h-100">
+        <div class="card-body">
+          <h5 class="card-title text-primary text-uppercase small fw-bold">Workers</h5>
+          <p class="display-4 fw-normal">{{ num_workers }}</p>
+          <a href="{% url 'task_manager:worker-list' %}" class="btn btn-outline-primary btn-sm">View All Workers</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm border-success h-100">
+        <div class="card-body">
+          <h5 class="card-title text-success text-uppercase small fw-bold">Active Tasks</h5>
+          <p class="display-4 fw-normal">{{ num_tasks }}</p>
+          <a href="{% url 'task_manager:task-list' %}" class="btn btn-outline-success btn-sm">Manage Tasks</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm border-info h-100">
+        <div class="card-body">
+          <h5 class="card-title text-info text-uppercase small fw-bold">Positions</h5>
+          <p class="display-4 fw-normal">{{ num_positions }}</p>
+          <a href="{% url 'task_manager:task-type-list' %}" class="btn btn-outline-info btn-sm">Task Types</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4 p-3 bg-white border rounded shadow-sm">
+    <p class="mb-0 text-muted">
+      <i class="bi bi-eye"></i> You have visited this page <strong>{{ num_visits }}</strong> times.
+    </p>
+  </div>
+{% endblock %}

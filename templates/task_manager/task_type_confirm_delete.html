@@ -1,0 +1,11 @@
+{% extends "task_manager/base.html" %}
+
+{% block content %}
+  <h1>Delete Task Type</h1>
+  <p>Are you sure you want to delete task type: <strong>{{ object.name }}</strong>?</p>
+  <form action="" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+    <a href="{% url 'task_manager:task-type-list' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}

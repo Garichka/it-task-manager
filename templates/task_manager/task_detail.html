@@ -1,10 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "task_manager/base.html" %}
+
+{% block content %}
+  <h1>{{ task.name }}</h1>
+  <p class="text-muted">{{ task.task_type.name }} | Priority: {{ task.priority }}</p>
+  <hr>
+  <p>{{ task.description }}</p>
+  <p><strong>Deadline:</strong> {{ task.deadline }}</p>
+
+  <h3>Assignees</h3>
+  <ul>
+    {% for worker in task.assignees.all %}
+      <li>{{ worker.username }} ({{ worker.position.name }})</li>
+    {% empty %}
+      <li>No one assigned yet.</li>
+    {% endfor %}
+  </ul>
+
+  <div class="mt-4">
+    <a href="{% url 'task_manager:toggle-task-assign' pk=task.id %}" 
+       class="btn {% if user in task.assignees.all %}btn-warning{% else %}btn-success{% endif %}">
+      {% if user in task.assignees.all %}Unassign me{% else %}Assign me to this task{% endif %}
+    </a>
+    <a href="{% url 'task_manager:task-update' pk=task.id %}" class="btn btn-outline-secondary">Edit</a>
+    <a href="{% url 'task_manager:task-delete' pk=task.id %}" class="btn btn-outline-danger">Delete</a>
+  </div>
+{% endblock %}

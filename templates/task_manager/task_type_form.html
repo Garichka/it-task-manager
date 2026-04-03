@@ -1,0 +1,12 @@
+{% extends "task_manager/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <h1>{{ object|yesno:"Update,Create" }} Task Type</h1>
+  <form action="" method="post" novalidate>
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="{% url 'task_manager:task-type-list' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}

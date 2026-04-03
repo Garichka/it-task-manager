@@ -1,0 +1,39 @@
+{% extends "task_manager/base.html" %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Task Types</h1>
+    <a href="{% url 'task_manager:task-type-create' %}" class="btn btn-primary">Add New Type</a>
+  </div>
+
+  <form method="get" class="row g-2 mb-4">
+    <div class="col-auto">
+      {{ search_form.queryset }}
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-secondary">Search</button>
+    </div>
+  </form>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for type in task_type_list %}
+        <tr>
+          <td>{{ type.id }}</td>
+          <td>{{ type.name }}</td>
+          <td>
+            <a href="{% url 'task_manager:task-type-update' pk=type.id %}" class="text-warning me-2">Edit</a>
+            <a href="{% url 'task_manager:task-type-delete' pk=type.id %}" class="text-danger">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
