@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 from .models import Task, Worker
 
+
 class TaskForm(forms.ModelForm):
     assignees = forms.ModelMultipleChoiceField(
         queryset=get_user_model().objects.all(),
@@ -17,6 +18,7 @@ class TaskForm(forms.ModelForm):
             "deadline": forms.DateInput(attrs={"type": "date"}),
         }
 
+
 class WorkerCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = Worker
@@ -26,10 +28,12 @@ class WorkerCreationForm(UserCreationForm):
             "last_name",
         )
 
+
 class WorkerPositionUpdateForm(forms.ModelForm):
     class Meta:
         model = Worker
         fields = ["position"]
+
 
 class SearchForm(forms.Form):
     queryset = forms.CharField(

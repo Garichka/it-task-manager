@@ -1,0 +1,14 @@
+{% extends "task_manager/base.html" %}
+
+{% block content %}
+  <div class="alert alert-danger shadow-sm" role="alert">
+    <h4 class="alert-heading">Delete Worker</h4>
+    <p>Are you sure you want to delete worker <strong>{{ worker.username }}</strong>?</p>
+    <hr>
+    <form action="" method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Confirm Delete</button>
+      <a href="{% url 'task_manager:worker-list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+{% endblock %}
