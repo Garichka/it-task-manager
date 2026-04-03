@@ -23,7 +23,6 @@ class Worker(AbstractUser):
         blank=True
     )
 
-
     class Meta:
         verbose_name = "worker"
         verbose_name_plural = "workers"
