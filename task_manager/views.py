@@ -1,11 +1,10 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views import generic
+from django.views import generic, View
 
-from .models import Worker, Task, Position, TaskType
-from .forms import (
+from task_manager.models import Worker, Task, Position, TaskType
+from task_manager.forms import (
     WorkerCreationForm,
     WorkerPositionUpdateForm,
     TaskForm,
@@ -13,23 +12,20 @@ from .forms import (
 )
 
 
-@login_required
-def index(request):
-    num_workers = Worker.objects.count()
-    num_tasks = Task.objects.count()
-    num_positions = Position.objects.count()
+class IndexView(LoginRequiredMixin, generic.TemplateView):
+    template_name = "task_manager/index.html"
 
-    num_visits = request.session.get("num_visits", 0)
-    request.session["num_visits"] = num_visits + 1
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["num_workers"] = Worker.objects.count()
+        context["num_tasks"] = Task.objects.count()
+        context["num_positions"] = Position.objects.count()
 
-    context = {
-        "num_workers": num_workers,
-        "num_tasks": num_tasks,
-        "num_positions": num_positions,
-        "num_visits": num_visits,
-    }
+        num_visits = self.request.session.get("num_visits", 0)
+        self.request.session["num_visits"] = num_visits + 1
+        context["num_visits"] = num_visits
 
-    return render(request, "task_manager/index.html", context=context)
+        return context
 
 
 class TaskTypeListView(LoginRequiredMixin, generic.ListView):
@@ -161,14 +157,12 @@ class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
     template_name = "task_manager/worker_confirm_delete.html"
 
 
-@login_required
-def toggle_assign_to_task(request, pk):
-    task = get_object_or_404(Task, pk=pk)
-    worker = request.user
-
-    if task in worker.tasks.all():
-        worker.tasks.remove(task)
-    else:
-        worker.tasks.add(task)
-
-    return redirect("task_manager:task-detail", pk=pk)
+class ToggleAssignToTaskView(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        task = get_object_or_404(Task, pk=pk)
+        worker = request.user
+        if task in worker.tasks.all():
+            worker.tasks.remove(task)
+        else:
+            worker.tasks.add(task)
+        return redirect("task_manager:task-detail", pk=pk)
