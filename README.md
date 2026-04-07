@@ -2,6 +2,12 @@
 
 A comprehensive Django-based web application designed for IT teams to streamline task management, track project progress, and manage team assignments efficiently.
 
+🔗 Live Demo
+
+https://it-task-manager-yd12.onrender.com/
+login: user
+password: password in the Mate Academy assignment
+
 ## ✨ Key Features
 * **Worker & Task Management**: Full CRUD (Create, Read, Update, Delete) for tasks, workers, and task types.
 * **Smart Task Assignment**: Workers can easily assign themselves to tasks or be assigned by others.
