@@ -30,29 +30,20 @@
         <tr>
           <td><a href="{% url 'task_manager:task-detail' pk=task.id %}">{{ task.name }}</a></td>
           <td>{{ task.deadline }}</td>
-          <td><span class="badge {% if task.priority == 'Urgent' %}bg-danger{% else %}bg-info{% endif %}">{{ task.priority }}</span></td>
+          <td>
+            <span class="badge {% if task.priority == 'Urgent' %}bg-danger{% else %}bg-info{% endif %}">
+              {{ task.priority }}
+            </span>
+          </td>
           <td>{{ task.task_type.name }}</td>
           <td>{% if task.is_completed %}✅ Done{% else %}🔄 In Progress{% endif %}</td>
         </tr>
       {% empty %}
-        <tr><td colspan="5">No tasks found.</td></tr>
+        <tr><td colspan="5" class="text-center">No tasks found.</td></tr>
       {% endfor %}
     </tbody>
   </table>
 
-  <nav>
-    <ul class="pagination">
-      {% if page_obj.has_previous %}
-        <li class="page-item">
-          <a class="page-item" href="?queryset={{ request.GET.queryset }}&page={{ page_obj.previous_page_number }}">Previous</a>
-        </li>
-      {% endif %}
-      <li class="page-item disabled"><span class="page-link">Page {{ page_obj.number }} of {{ paginator.num_pages }}</span></li>
-      {% if page_obj.has_next %}
-        <li class="page-item">
-          <a class="page-link" href="?queryset={{ request.GET.queryset }}&page={{ page_obj.next_page_number }}">Next</a>
-        </li>
-      {% endif %}
-    </ul>
-  </nav>
+  {% include "task_manager/includes/pagination.html" %}
+
 {% endblock %}
